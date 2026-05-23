@@ -1,0 +1,19 @@
+.badge-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: white;
+    display: inline-block;
+}
+
+.badge-new {
+    background-color: #667eea;
+}
+
+.badge-in_progress {
+    background-color: #ed8936;
+}
+
+.badge-done {
+    background-color: #48bb78;
+}
