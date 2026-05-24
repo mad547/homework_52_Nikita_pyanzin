@@ -12,7 +12,8 @@ def task_list(request):
 
 def task_add(request):
     if request.method == 'GET':
-        context = {'status_choises': STATUS_CHOICES}
+        context = {'status_choices': STATUS_CHOICES}
+        return render(request, 'task_add.html', context)
     elif request.method == 'POST':
         description = request.POST.get('description', '').strip()
         status = request.POST.get('status', 'new')
