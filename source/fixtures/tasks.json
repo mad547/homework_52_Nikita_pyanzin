@@ -1,0 +1,1 @@
+[{"model": "todo_app.task", "pk": 1, "fields": {"description": "доделать дз", "status": "new", "due_date": "2026-05-25"}}, {"model": "todo_app.task", "pk": 2, "fields": {"description": "починить машину", "status": "new", "due_date": null}}]
