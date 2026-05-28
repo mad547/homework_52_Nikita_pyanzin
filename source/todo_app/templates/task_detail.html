@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card my-5">
+    <div class="card-header fs-4 text-center py-3">{{ task.description }}</div>
+    <div class="card-body">
+        <p>
+            <strong>Статус:</strong>
+            <span class="badge-status badge-{{ task.status }}">
+                {{ task.get_status_display }}
+            </span>
+        </p>
+        <p><strong>Дата выполнения</strong> {{ task.due_date|default:"-" }}</p>
+        <p><strong>Подробное описание:</strong></p>
+        <p style="white-space: pre-wrap">{{ task.details|default:"-" }}</p>
+    </div>
+    <div class="card-footer py-3">
+        <a href="{% url 'task_list' %}" class="btn btn-sm btn-outline-secondary">Назад</a>
+        <a href="{% url 'task_delete' %}?id={{ task.id }}" class="btn btn-sm btn-danger float-end">Удалить</a>
+    </div>
+</div>
+{% endblock %}
