@@ -1,5 +1,4 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from todo_app.models import Task, STATUS_CHOICES
 
 
@@ -18,13 +17,16 @@ def task_add(request):
         description = request.POST.get('description', '').strip()
         status = request.POST.get('status', 'new')
         due_date = request.POST.get('due_date', '').strip() or None
+        details = request.POST.get('details', '').strip()
         if description:
             Task.objects.create(
                 description=description,
                 status=status,
                 due_date=due_date,
+                details=details
             )
-        return HttpResponseRedirect('/tasks/')
+        return redirect('task_list')
+
 
 def task_delete(request):
     task_id = request.GET.get('id')
@@ -34,4 +36,10 @@ def task_delete(request):
             task.delete()
         except Task.DoesNotExist:
             pass
-    return HttpResponseRedirect('/tasks/')
+    return redirect('task_list')
+
+
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    context = {'task': task}
+    return render(request, 'task_detail.html', context)
