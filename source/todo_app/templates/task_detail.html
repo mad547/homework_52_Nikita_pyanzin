@@ -4,19 +4,23 @@
 <div class="card my-5">
     <div class="card-header fs-4 text-center py-3">{{ task.description }}</div>
     <div class="card-body">
-        <p>
-            <strong>Статус:</strong>
+        <p><strong>Статус:</strong>
             <span class="badge-status badge-{{ task.status }}">
                 {{ task.get_status_display }}
             </span>
         </p>
-        <p><strong>Дата выполнения</strong> {{ task.due_date|default:"-" }}</p>
+        <p><strong>Дата выполнения:</strong> {{ task.due_date|default:"—" }}</p>
         <p><strong>Подробное описание:</strong></p>
-        <p style="white-space: pre-wrap">{{ task.details|default:"-" }}</p>
+        <p style="white-space: pre-wrap;">{{ task.details|default:"—" }}</p>
     </div>
-    <div class="card-footer py-3">
-        <a href="{% url 'task_list' %}" class="btn btn-sm btn-outline-secondary">Назад</a>
-        <a href="{% url 'task_delete' %}?id={{ task.id }}" class="btn btn-sm btn-danger float-end">Удалить</a>
+    <div class="card-footer py-3 d-flex justify-content-between">
+        <a href="{% url 'task_list' %}" class="btn btn-sm btn-outline-secondary">← Назад</a>
+        <div>
+            <a href="{% url 'task_edit' task.id %}" class="btn btn-sm btn-primary me-2">Изменить</a>
+            <a data-bs-toggle="modal" data-bs-target="#task-{{ task.pk }}-Modal"
+               class="btn btn-sm btn-danger" style="cursor:pointer;">Удалить</a>
+        </div>
     </div>
 </div>
+{% include 'partial/task_delete_modal.html' with task=task %}
 {% endblock %}

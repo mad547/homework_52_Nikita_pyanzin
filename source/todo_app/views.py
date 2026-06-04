@@ -36,7 +36,6 @@ def task_edit(request, task_id):
 
 
 def task_delete(request, task_id):
-    task_id = request.GET.get('id')
     task = get_object_or_404(Task, id=task_id)
     if request.method == 'POST':
         task.delete()
