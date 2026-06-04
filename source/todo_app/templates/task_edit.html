@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}
 <div class="card my-5">
-    <div class="card-header fs-4 text-center py-3">Создание задачи</div>
+    <div class="card-header fs-4 text-center py-3">Редактирование задачи</div>
     <div class="card-body">
         <form id="task-form" action="" method="POST">
             {% include 'partial/task_form.html' %}
         </form>
     </div>
-    <div class="card-footer d-flex justify-content-between py-3">
+    <div class="d-flex justify-content-between py-3">
         <a href="{% url 'task_list' %}" class="btn btn-sm btn-outline-secondary">Отмена</a>
         <button type="submit" form="task-form" class="btn btn-sm btn-primary">Сохранить</button>
     </div>
