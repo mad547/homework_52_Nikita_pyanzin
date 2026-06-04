@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from todo_app.models import Task, STATUS_CHOICES
+from todo_app.models import Task
+from todo_app.forms import TaskForm
 
 
 # Create your views here.
@@ -10,33 +11,36 @@ def task_list(request):
 
 
 def task_add(request):
+    form = TaskForm()
     if request.method == 'GET':
-        context = {'status_choices': STATUS_CHOICES}
-        return render(request, 'task_add.html', context)
+        return render(request, 'task_add.html', {'form':form})
     elif request.method == 'POST':
-        description = request.POST.get('description', '').strip()
-        status = request.POST.get('status', 'new')
-        due_date = request.POST.get('due_date', '').strip() or None
-        details = request.POST.get('details', '').strip()
-        if description:
-            Task.objects.create(
-                description=description,
-                status=status,
-                due_date=due_date,
-                details=details
-            )
-        return redirect('task_list')
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('task_list')
+        return render(request, 'task_add.html', {'form':form})
 
 
-def task_delete(request):
+def task_edit(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    form = TaskForm(instance=task)
+    if request.method == 'GET':
+        return render(request, 'task_edit.html', {'form':form, 'task':task})
+    elif request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('task_list')
+        return render(request, 'task_edit.html', {'form':form, 'task':task})
+
+
+def task_delete(request, task_id):
     task_id = request.GET.get('id')
-    if task_id:
-        try:
-            task = Task.objects.get(id=int(task_id))
-            task.delete()
-        except Task.DoesNotExist:
-            pass
-    return redirect('task_list')
+    task = get_object_or_404(Task, id=task_id)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('task_list')
 
 
 def task_detail(request, task_id):
